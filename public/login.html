@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/login.css">
+</head>
+
+<body>
+    <h1>WHEELS TOGETHER</h1>
+    <div class="main">
+        <div class="div1">
+            <h1 id="h111">Login To Your Account</h1>
+            <p id="p111">Login using Social Networks</p>
+            <div class="social">
+                <div class="google" id="google1">
+                    <img src="./assets/images/icons8-google-48.png" alt="google">
+                </div>
+                <div class="google">
+                    <img src="./assets/images/icons8-linked-in-48.png" alt="google">
+                </div>
+            </div>
+            <p id="p111">OR</p>
+            <form id="form1" onsubmit="login(event)">
+                <input id="email" placeholder="Email" type="email">
+                <input id="password" placeholder="Password" type="password">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="div2">
+            <h1>New Hear?</h1>
+            <p>SignUp and Share the ride!</p>
+            <button id="signup" type="submit">SignUp</button>
+        </div>
+    </div>
+    <script src="./javascript/login.js" defer type="module"></script>
+</body>
+
+</html>

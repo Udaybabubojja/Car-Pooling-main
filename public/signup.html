@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/signup.css">
+</head>
+
+<body>
+    <h1>WHEELS TOGETHER</h1>
+    <div class="main">
+        <div class="div2">
+            <h1>Already a User?</h1>
+            <p>Login and Share the ride!</p>
+            <button id="login" type="submit">Login</button>
+        </div>
+        <div class="div1">
+            <h1 id="h111">SignUp To Your Account</h1>
+            <p id="p111">SignUp using Social Networks</p>
+            <div class="social">
+                <div class="google" id="google1">
+                    <img src="./assets/images/icons8-google-48.png" alt="google">
+                </div>
+                <div class="google">
+                    <img src="./assets/images/icons8-linked-in-48.png" alt="google">
+                </div>
+            </div>
+            <p id="p111">OR</p>
+            <form id="form1" onsubmit="signup(event)" >
+                <input id="username" placeholder="Username" type="text">
+                <input id="email" placeholder="Email" type="email">
+                <input id="password" placeholder="Password" type="password">
+                <button type="submit">Submit</button>
+            </form>
+
+        </div>
+    </div>
+    <script src="./javascript/signup.js" defer type="module"></script>
+</body>
+
+</html>

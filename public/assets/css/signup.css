@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    padding: 0%;
+    margin: 4px;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    /* height: 100vh; */
+}
+
+h1 {
+    font-size: 27px;
+}
+
+.main {
+    /* height: 80vh; */
+    display: flex;
+    flex-direction: row;
+}
+
+.div1 {
+    /* background-color: aquamarine; */
+    /* height: 100%; */
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.div2 {
+    background-color: #85e3b3;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 549px;
+}
+
+.div2 h1 {
+    color: white;
+    font-size: 3rem;
+    margin: 0%;
+    padding: 0px;
+}
+
+#h111 {
+    font-size: 2.5em;
+    margin: 0px;
+    padding: 0px;
+}
+
+#p111 {
+    margin: 0;
+    padding: 0;
+}
+
+.class {
+    width: 100%;
+}
+
+.google {
+    background-color: #85e3b3;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 10px 0px 10px;
+}
+
+.google img {
+    height: 30px;
+    width: auto;
+}
+
+.social {
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+}
+#form1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+input {
+    width: 334px;
+    border-radius: 84px;
+    border: none;
+    height: 37px;
+    margin: 10px;
+    background-color: #dbfdec;
+}
+
+.div1 input {
+    /* text-align: center; */
+    padding-left: 10px;
+}
+
+button {
+    height: 40px;
+    width: 105px;
+    border-radius: 27px;
+    border: none;
+    background-color: #85e3b3;
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #b6f1d2;
+    cursor: pointer;
+}
+
+.div2 p {
+    font-size: 1rem;
+    color: white;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+}
+
+.div2 button {
+    background-color: white;
+
+}
+
+.div2 button:hover {
+    background-color: #deede5;
+    cursor: pointer;
+}
+
+.google:hover {
+    background-color: #b6f1d2;
+    cursor: pointer;
+}

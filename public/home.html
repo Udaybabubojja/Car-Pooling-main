@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/home.css">
+</head>
+<body>
+    <section class="f01">
+        <div class="head">
+            <div class="headmain">
+                <h1>WHEELS TOGETHER</h1>
+                <p>Find your riding partner now!!</p>
+            </div>
+            <div class="headside">
+                <div id="userInfo" style="white-space: per-line;"></div>
+                <input type="button" value="Logout" id="logoutButton">
+                <input type="button" value="login/signup" id="loginSignupButton">
+                <input type="button" value="Need-sharing" id="button2">
+                <div id="info" class="info">
+                    <img src="./assets/images/icons8-user-48.png" alt="login">
+                </div>
+            </div>
+        </div>
+        <div class="options">
+            <form action="/search" class="form1">
+                <div class="out">
+                    <label for="placeInput1">From:</label>
+                    <div class="in">
+                        <input type="text" name="placeInput1" id="placeInput1">
+                    </div>
+                    <label for="placeInput2">To:</label>
+                    <div class="in">
+                        <input type="text" id="placeInput2" name="placeInput2">
+                    </div>
+                </div>
+                <button type="submit" id="submit">Search</button>
+            </form>
+        </div>
+        <div class="div-svg">
+            <object data="./assets/images/26234278_7178882.svg"></object>
+        </div>
+    </section>
+    <div id="searchResults" class="search-results"></div>
+    <script src="./javascript/home.js"  type="module"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* background-color: aquamarine; */
+    font-family: 'Poppins', sans-serif;
+    margin: 10px;
+    color: #172c3a;
+
+}
+#sub{
+    text-align: center;
+    margin-top:20px ;
+}
+#sub button{
+    background-color: #85e3b3;
+    color: black;
+    border-radius: 3px;
+    width: 73px;
+    height: 34px;
+    border: 1px;
+    cursor: pointer;
+}
+.suggestions {
+    /* position: absolute; */
+    /* background-color: white;
+    border: 1px solid #ccc; */
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1;
+    width: 162px;
+    top: 0px;
+    margin-left: 10px;
+    left: 10px;
+}
+
+#sub button:hover{
+    background-color: #a8ebc8;
+}
+/* #sub{
+    display: flex;
+    align-items: center;
+    justify-self: center;
+} */
+#common {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0px 10px 10px;
+}
+
+#common label {
+    width: 300px;
+}
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 30px;
+    height: 354px;
+}
+input{
+    width: 170px;
+    text-align: center;
+}
+
+object {
+    height: 500px;
+    width: 500px;
+}
+
+.right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left button{
+    text-align: center;
+}
