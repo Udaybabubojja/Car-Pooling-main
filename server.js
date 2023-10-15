@@ -81,8 +81,7 @@ app.post('/submit', async (req, res) => {
       console.log('Document written with ID: ', docRef.id);
 
       // Send a response to the client
-      res.send('Form submitted successfully');
-      // window.location.href = "user.html";
+      res.status(400).send('Form submitted successfully');
   } catch (error) {
       console.error('Error submitting form:', error);
       res.status(500).send('Error submitting form');
@@ -153,7 +152,25 @@ app.post('/confirm-booking', async (req, res) => {
             const querySnapshot = await query.get();
             if (!querySnapshot.empty) {
                 // Delete the first matching document
+                const fromLocation = req.body.fromLocation;
+                const toLocation = req.body.toLocation;
+                const date = req.body.date;
+                const time = req.body.time;
+                const noOfPersons = parseInt(req.body.noOfPersons); // Parse as an integer
+                const sharingPrice = parseFloat(req.body.sharingPrice); // Parse as a float
+                const userEmails = req.cookies.userEmail; // Retrieve the user's email
 
+                // Create a new document in the "userPosts" collection
+                const docRef = await db.collection('confirmBookings').add({
+                    fromLocation,
+                    toLocation,
+                    date,
+                    time,
+                    noOfPersons,
+                    sharingPrice,
+                    userEmails, // Include the user's email in the document
+                });
+                console.log(docRef);
                 const doc = querySnapshot.docs[0];
                 await doc.ref.delete();
                 console.log('Record removed from the database');
@@ -194,8 +211,33 @@ app.post('/confirm-booking', async (req, res) => {
     sendEmailsAndRemoveRecord();
 });
 
+app.post('/getuserdetails', async (req, res) => {
+  try {
+    const userEmail = req.body.userEmail; 
+    console.log('get detailsl: ', userEmail);// Assuming you send the user's email in the request body
+    const db = admin.firestore();
+    const userPostsRef = db.collection('userPosts').where('userEmail', '==', userEmail);
+    const confirmBookingsRef = db.collection('confirmBookings').where('userEmail', '==', userEmail);
 
-  
+    const [userPostsSnapshot, confirmBookingsSnapshot] = await Promise.all([
+      userPostsRef.get(),
+      confirmBookingsRef.get(),
+    ]);
+
+    const userPostsData = userPostsSnapshot.docs.map((doc) => doc.data());
+    const confirmBookingsData = confirmBookingsSnapshot.docs.map((doc) => doc.data());
+
+    res.status(200).json({
+      userPosts: userPostsData,
+      confirmBookings: confirmBookingsData,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 app.listen(3000, () =>{
     console.log('App listening on port 3000!');  
 });

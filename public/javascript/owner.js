@@ -97,6 +97,7 @@ document.addEventListener("submit", (event) => {
       if (!userEmail) {
           event.preventDefault(); // Prevent form submission
           alert("Please log in to post a ride.");
+          window.location.href="/login";
       }
   }
 });

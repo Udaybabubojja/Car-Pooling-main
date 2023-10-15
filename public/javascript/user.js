@@ -14,30 +14,56 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Get the reference to the DOM element where you want to display the user info
 const userInfoElement = document.getElementById("userInfo");
+const userDetailsElement = document.getElementById("userDetails");
 
 // Add an event listener to the "Get My Info" button
-// document.getElementById("getInfoButton").addEventListener("click", () => {
-    // Get the Firebase Auth object
+document.getElementById("getInfoButton").addEventListener("click", () => {
     const auth = getAuth(app);
-
-    // Check if a user is logged in
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log(user);
-            document.cookie = `userEmail=${user.email}; expires=Wed, 01 Jan 2099 00:00:00 UTC; path=/`;
-            document.cookie = `userDisplayName=${user.displayName}; expires=Wed, 01 Jan 2099 00:00:00 UTC; path=/`;
-            // User is logged in
-            if (user.displayName)
-                userInfoElement.innerText = `Hi ${user.displayName}, you are logged in.\nEmail: ${user.email}`
-            else
-                userInfoElement.innerHTML = `Hi ${user.email}`
+            if (user.displayName) {
+                userInfoElement.innerText = `Hi ${user.displayName}, you are logged in.\nEmail: ${user.email}`;
+            } else {
+                userInfoElement.innerHTML = `Hi ${user.email}`;
+            }
         } else {
-            // User is not logged in
             userInfoElement.innerText = "No, you are not a user.";
         }
     });
-// });
+});
 
+// Add an event listener to the "Get User Details" button
+document.getElementById("getUserDetailsButton").addEventListener("click", async () => {
+    const userEmail = getCookie("userEmail");
+    if (userEmail) {
+        try {
+            const response = await fetch("/getuserdetails", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userEmail: userEmail }),
+            });
 
+            if (response.ok) {
+                const data = await response.json();
+                userDetailsElement.innerText = JSON.stringify(data, null, 2);
+            } else {
+                userDetailsElement.innerText = "Error fetching user details.";
+            }
+        } catch (error) {
+            userDetailsElement.innerText = "An error occurred while fetching user details.";
+            console.error(error);
+        }
+    } else {
+        alert("Please log in to get your details.");
+    }
+});
+
+// Function to get a cookie by name
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
