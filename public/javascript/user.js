@@ -99,7 +99,7 @@ function displayUserDetails(data) {
         bookingDiv.className = "confirm-bookings";
         bookingDiv.innerHTML = `<p><b>Date:</b> ${booking.date}</p>`;
         bookingDiv.innerHTML += `<p><b>Sharing Price: </b>${booking.sharingPrice}</p>`;
-        bookingDiv.innerHTML += `<p><b>User Email:</b> ${booking.userEmail}</p>`;
+        bookingDiv.innerHTML += `<p><b>User Email:</b> ${booking.Email1}</p>`;
         bookingDiv.innerHTML += `<p><b>From Location:</b> ${booking.fromLocation}</p>`;
         bookingDiv.innerHTML += `<p><b>Time: </b>${booking.time}</p>`;
         bookingDiv.innerHTML += `<p><b>To Location: </b>${booking.toLocation}</p>`;

@@ -79,28 +79,13 @@ app.post('/submit', async (req, res) => {
     })
 
       console.log('Document written with ID: ', docRef.id);
-
-      // Send a response to the client
-      const alertMessage = 'Form submitted successfully';
-      const redirectToUserHTML = '/user.html'; // Adjust the path as needed
-      const alertScript = `
-        <script>
-          alert('${alertMessage}');
-          window.location.href = '${redirectToUserHTML}';
-        </script>
-      `;
-
-      // Send a response to the client with a status code of 200 for success
-      res.status(200).send('Form submitted successfully');
-
-      res.write(alertScript);
+      console.log('Posted sucessfully!..');
+      res.sendFile(__dirname + "/public/" + "user.html");
   } catch (error) {
       console.error('Error submitting form:', error);
       res.status(500).send('Error submitting form');
   }
 });
-
-
 
 app.get('/search', async (req, res) => {
     try {
@@ -239,7 +224,7 @@ app.post('/getuserdetails', async (req, res) => {
 
     const userPostsData = userPostsSnapshot.docs.map((doc) => doc.data());
     const confirmBookingsData = confirmBookingsSnapshot.docs.map((doc) => doc.data());
-
+    console.log(confirmBookingsData);
     res.status(200).json({
       userPosts: userPostsData,
       confirmBookings: confirmBookingsData,

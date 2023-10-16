@@ -90,14 +90,32 @@ if (hiddenField1 && userEmail) {
 }
 
 // Add a submit event listener to the form
-document.addEventListener("submit", (event) => {
-  console.log(userEmail);
-  if (event.target.id === "rideForm") {
-      // Check if the user email is retrieved from the cookies
-      if (!userEmail) {
-          event.preventDefault(); // Prevent form submission
-          alert("Please log in to post a ride.");
-          window.location.href="/login";
-      }
+// ... (Previous code)
+
+// Function to handle the JSON response
+function handleFormSubmissionResponse(data) {
+    if (data.success) {
+      alert(data.message);
+      window.location.href="user.html"; // Display the success message in an alert
+    } else {
+      alert(data.message);
+      window.location.href="user.html"; // Handle error messages if needed
+    }
   }
-});
+  
+  // Add a submit event listener to the form
+  document.addEventListener("submit", async (event) => {
+    if (event.target.id === "rideForm") {
+      // Check if the user email is retrieved from the cookies
+      const userEmail = getCookieValue("userEmail");
+  
+      if (!userEmail) {
+        event.preventDefault(); // Prevent form submission
+        alert("Please log in to post a ride.");
+        window.location.href = "/login";
+      } 
+    }
+  });
+  
+  // ... (Rest of the code)
+  
