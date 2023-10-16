@@ -81,7 +81,19 @@ app.post('/submit', async (req, res) => {
       console.log('Document written with ID: ', docRef.id);
 
       // Send a response to the client
-      res.status(400).send('Form submitted successfully');
+      const alertMessage = 'Form submitted successfully';
+      const redirectToUserHTML = '/user.html'; // Adjust the path as needed
+      const alertScript = `
+        <script>
+          alert('${alertMessage}');
+          window.location.href = '${redirectToUserHTML}';
+        </script>
+      `;
+
+      // Send a response to the client with a status code of 200 for success
+      res.status(200).send('Form submitted successfully');
+
+      res.write(alertScript);
   } catch (error) {
       console.error('Error submitting form:', error);
       res.status(500).send('Error submitting form');
@@ -158,7 +170,7 @@ app.post('/confirm-booking', async (req, res) => {
                 const time = req.body.time;
                 const noOfPersons = parseInt(req.body.noOfPersons); // Parse as an integer
                 const sharingPrice = parseFloat(req.body.sharingPrice); // Parse as a float
-                const userEmails = req.cookies.userEmail; // Retrieve the user's email
+             // Retrieve the user's email
 
                 // Create a new document in the "userPosts" collection
                 const docRef = await db.collection('confirmBookings').add({
@@ -168,7 +180,8 @@ app.post('/confirm-booking', async (req, res) => {
                     time,
                     noOfPersons,
                     sharingPrice,
-                    userEmails, // Include the user's email in the document
+                    Email1:userEmail,
+                    Email2:cookieEmail, // Include the user's email in the document
                 });
                 console.log(docRef);
                 const doc = querySnapshot.docs[0];
@@ -217,7 +230,7 @@ app.post('/getuserdetails', async (req, res) => {
     console.log('get detailsl: ', userEmail);// Assuming you send the user's email in the request body
     const db = admin.firestore();
     const userPostsRef = db.collection('userPosts').where('userEmail', '==', userEmail);
-    const confirmBookingsRef = db.collection('confirmBookings').where('userEmail', '==', userEmail);
+    const confirmBookingsRef = db.collection('confirmBookings').where('Email2', '==', userEmail);
 
     const [userPostsSnapshot, confirmBookingsSnapshot] = await Promise.all([
       userPostsRef.get(),

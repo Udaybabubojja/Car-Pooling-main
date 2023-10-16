@@ -79,16 +79,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json().then((data) => {
                     console.log(data.message);
                     alert('Your Ride is Booked!!');
+                    window.location.href="user.html";
                 });
             } else if (response.status === 400) {
                 // Display an alert for users not logged in
                 return response.json().then((data) => {
                     alert(data.message);
+                    window.location.href="/login";
                 });
             }else if (response.status === 201) {
                 // Display an alert for users not logged in
                 return response.json().then((data) => {
                     alert(data.message);
+                    window.location.href="/login";
                 });
             } else {
                 // Handle other error cases

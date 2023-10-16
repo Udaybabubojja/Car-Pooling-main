@@ -17,53 +17,96 @@ const app = initializeApp(firebaseConfig);
 const userInfoElement = document.getElementById("userInfo");
 const userDetailsElement = document.getElementById("userDetails");
 
-// Add an event listener to the "Get My Info" button
-document.getElementById("getInfoButton").addEventListener("click", () => {
-    const auth = getAuth(app);
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            if (user.displayName) {
-                userInfoElement.innerText = `Hi ${user.displayName}, you are logged in.\nEmail: ${user.email}`;
-            } else {
-                userInfoElement.innerHTML = `Hi ${user.email}`;
-            }
+// Trigger "Get My Info" action on page load
+const auth = getAuth(app);
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        if (user.displayName) {
+            userInfoElement.innerText = `Hi ${user.displayName}, you are logged in.\nEmail: ${user.email}`;
         } else {
-            userInfoElement.innerText = "No, you are not a user.";
-        }
-    });
-});
-
-// Add an event listener to the "Get User Details" button
-document.getElementById("getUserDetailsButton").addEventListener("click", async () => {
-    const userEmail = getCookie("userEmail");
-    if (userEmail) {
-        try {
-            const response = await fetch("/getuserdetails", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ userEmail: userEmail }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                userDetailsElement.innerText = JSON.stringify(data, null, 2);
-            } else {
-                userDetailsElement.innerText = "Error fetching user details.";
-            }
-        } catch (error) {
-            userDetailsElement.innerText = "An error occurred while fetching user details.";
-            console.error(error);
+            userInfoElement.innerHTML = `Hi ${user.email}`;
         }
     } else {
-        alert("Please log in to get your details.");
+        alert('Please login to get your information');
+        window.location.href='/login';
+
     }
 });
+
+// Trigger "Get User Details" action on page load
+const userEmail = getCookie("userEmail");
+if (userEmail) {
+    fetchUserDetails(userEmail);
+}
+
+// Function to fetch user details and update HTML
+async function fetchUserDetails(userEmail) {
+    try {
+        const response = await fetch("/getuserdetails", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userEmail: userEmail }),
+        });
+
+        if (response.ok) {
+            const htmlContent = await response.json();
+            displayUserDetails(htmlContent);
+            console.log(htmlContent);
+             // Update the HTML content
+        } else {
+            userDetailsElement.innerText = "Error fetching user details.";
+        }
+    } catch (error) {
+        userDetailsElement.innerText = "An error occurred while fetching user details.";
+        console.error(error);
+    }
+}
 
 // Function to get a cookie by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+// Function to display user details in div blocks
+function displayUserDetails(data) {
+    userDetailsElement.innerHTML = ""; // Clear existing content
+
+    const userPostsDiv = document.createElement("div");
+    userPostsDiv.className = "user-posts";
+    userPostsDiv.innerHTML = "<h2>User Posts</h2>";
+    for (const post of data.userPosts) {
+        const postDiv = document.createElement("div");
+        postDiv.className ="user-posts";
+        postDiv.innerHTML = `<p><b>Date:</b> ${post.date}</p>`;
+        postDiv.innerHTML += `<p><b>Sharing Price: </b>${post.sharingPrice}</p>`;
+        postDiv.innerHTML += `<p><b>User Email:</b> ${post.userEmail}</p>`;
+        postDiv.innerHTML += `<p><b>From Location:</b> ${post.fromLocation}</p>`;
+        postDiv.innerHTML += `<p><b>Time: </b>${post.time}</p>`;
+        postDiv.innerHTML += `<p><b>To Location:</b> ${post.toLocation}</p>`;
+        postDiv.innerHTML += `<p><b>No. of Persons:</b> ${post.noOfPersons}</p>`;
+        userPostsDiv.appendChild(postDiv);
+    }
+
+    const confirmBookingsDiv = document.createElement("div");
+    confirmBookingsDiv.className="confirm-bookings";
+    confirmBookingsDiv.innerHTML = "<h2>Confirm Bookings</h2>";
+    for (const booking of data.confirmBookings) {
+        const bookingDiv = document.createElement("div");
+        bookingDiv.className = "confirm-bookings";
+        bookingDiv.innerHTML = `<p><b>Date:</b> ${booking.date}</p>`;
+        bookingDiv.innerHTML += `<p><b>Sharing Price: </b>${booking.sharingPrice}</p>`;
+        bookingDiv.innerHTML += `<p><b>User Email:</b> ${booking.userEmail}</p>`;
+        bookingDiv.innerHTML += `<p><b>From Location:</b> ${booking.fromLocation}</p>`;
+        bookingDiv.innerHTML += `<p><b>Time: </b>${booking.time}</p>`;
+        bookingDiv.innerHTML += `<p><b>To Location: </b>${booking.toLocation}</p>`;
+        bookingDiv.innerHTML += `<p><b>No. of Persons:</b> ${booking.noOfPersons}</p>`;
+        confirmBookingsDiv.appendChild(bookingDiv);
+    }
+
+    userDetailsElement.appendChild(userPostsDiv);
+    userDetailsElement.appendChild(confirmBookingsDiv);
 }
