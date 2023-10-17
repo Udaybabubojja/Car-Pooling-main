@@ -52,7 +52,7 @@ app.post('/submit', async (req, res) => {
       const noOfPersons = parseInt(req.body.noOfPersons); // Parse as an integer
       const sharingPrice = parseFloat(req.body.sharingPrice); // Parse as a float
       const userEmail = req.body.hiddenField1; // Retrieve the user's email
-
+      const da = new Date();
       // Create a new document in the "userPosts" collection
       const docRef = await db.collection('userPosts').add({
           fromLocation,
@@ -61,7 +61,9 @@ app.post('/submit', async (req, res) => {
           time,
           noOfPersons,
           sharingPrice,
-          userEmail, // Include the user's email in the document
+          userEmail, 
+          da,
+          // Include the user's email in the document
       });
       const options = {
         from: "wheelstogether@outlook.com",
@@ -156,7 +158,7 @@ app.post('/confirm-booking', async (req, res) => {
                 const noOfPersons = parseInt(req.body.noOfPersons); // Parse as an integer
                 const sharingPrice = parseFloat(req.body.sharingPrice); // Parse as a float
              // Retrieve the user's email
-
+                const da = new Date();
                 // Create a new document in the "userPosts" collection
                 const docRef = await db.collection('confirmBookings').add({
                     fromLocation,
@@ -166,7 +168,8 @@ app.post('/confirm-booking', async (req, res) => {
                     noOfPersons,
                     sharingPrice,
                     Email1:userEmail,
-                    Email2:cookieEmail, // Include the user's email in the document
+                    Email2:cookieEmail, 
+                    da,// Include the user's email in the document
                 });
                 console.log(docRef);
                 const doc = querySnapshot.docs[0];
@@ -214,8 +217,8 @@ app.post('/getuserdetails', async (req, res) => {
     const userEmail = req.body.userEmail; 
     console.log('get detailsl: ', userEmail);// Assuming you send the user's email in the request body
     const db = admin.firestore();
-    const userPostsRef = db.collection('userPosts').where('userEmail', '==', userEmail);
-    const confirmBookingsRef = db.collection('confirmBookings').where('Email2', '==', userEmail);
+    const userPostsRef = db.collection('userPosts').where('userEmail', '==', userEmail)
+    const confirmBookingsRef = db.collection('confirmBookings').where('Email2', '==', userEmail)
 
     const [userPostsSnapshot, confirmBookingsSnapshot] = await Promise.all([
       userPostsRef.get(),
@@ -224,6 +227,8 @@ app.post('/getuserdetails', async (req, res) => {
 
     const userPostsData = userPostsSnapshot.docs.map((doc) => doc.data());
     const confirmBookingsData = confirmBookingsSnapshot.docs.map((doc) => doc.data());
+    confirmBookingsData.sort((a, b) => b.da - a.da);
+    userPostsData.sort((a, b) => b.da - a.da);
     console.log(confirmBookingsData);
     res.status(200).json({
       userPosts: userPostsData,
